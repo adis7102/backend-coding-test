@@ -1,7 +1,7 @@
 'use strict';
 
 const request = require('supertest');
-
+const assert = require('assert')
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database(':memory:');
 
@@ -29,4 +29,17 @@ describe('API tests', () => {
                 .expect(200, done);
         });
     });
+
+    describe('Error /rides', () => {
+        it('should return error message', () => {            
+            return request(app)
+                .get('/rides')                
+                .then(function(res) {
+                    assert.strictEqual(res.body.error_code, 'RIDES_NOT_FOUND_ERROR')
+                    assert.strictEqual(res.body.message, 'Could not find any rides')
+                })
+        })
+    })
+
+    
 });
