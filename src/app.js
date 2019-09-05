@@ -96,9 +96,10 @@ module.exports = (db) => {
 					error_code: 'RIDES_NOT_FOUND_ERROR',
 					message: 'Could not find any rides'
 				});
-			}
-
-			res.send(rows);
+			}            
+            const limit = 10
+            const page = req.query.page || 1
+			res.send(rows.slice(page * limit - limit, page * limit));
 		});
 	});
 
