@@ -7,10 +7,13 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const log = require('../winston')
 
-module.exports = (db) => {
+module.exports = (db) => { 
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));   
 	app.get('/health', (req, res) => res.send('Healthy'));
 
-	app.post('/rides', jsonParser, (req, res) => {
+	app.post('/rides', jsonParser, /* async  */(req, res) => {               
 		const startLatitude = Number(req.body.start_lat);
 		const startLongitude = Number(req.body.start_long);
 		const endLatitude = Number(req.body.end_lat);
@@ -33,10 +36,11 @@ module.exports = (db) => {
 			});
 		}
 
-		if (typeof riderName !== 'string' || riderName.length < 1) {
+		if (typeof riderName !== 'string' || riderName.length < 1) {            
 			return res.send({
 				error_code: 'VALIDATION_ERROR',
-				message: 'Rider name must be a non empty string'
+                message: 'Rider name must be a non empty string',
+                riderNama : riderName
 			});
 		}
 
@@ -55,7 +59,12 @@ module.exports = (db) => {
 		}
 
 		var values = [req.body.start_lat, req.body.start_long, req.body.end_lat, req.body.end_long, req.body.rider_name, req.body.driver_name, req.body.driver_vehicle];
-        
+        // try {
+
+        // }
+        // catch(err) {
+
+        // }
 		const result = db.run('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values, function (err) {
 			if (err) {
 				return res.send({
@@ -74,7 +83,9 @@ module.exports = (db) => {
 
 				res.send(rows);
 			});
-		});
+        });
+        
+
 	});
 
 	app.get('/rides', (req, res) => {
