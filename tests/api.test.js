@@ -157,7 +157,7 @@ describe('API tests', () => {
         it('should retun one data', () => {
             newRides.driver_vehicle = 'BMW'
             return request(app)
-                .get(`/rides/${1}`)
+                .get(`/rides/1`)
                 .expect('Content-Type', /json/)
                 .expect(200)
                 .then(function(res) {
@@ -169,7 +169,16 @@ describe('API tests', () => {
     describe('GET /rides/:id Error', () => {
         it('should retun Error', () => {
             return request(app)
-                .get(`/rides/${12321321}`)
+                .get(`/rides/12321321`)
+                .expect('Content-Type', /json/)                
+                .then(function(res) {
+                    assert.strictEqual(res.body.message, 'Could not find any rides')
+                })
+        })
+
+        it('should not vulnerable to sql injection', () => {
+            return request(app)
+                .get(`/rides/1';DROP TABLE Rides;--`)
                 .expect('Content-Type', /json/)                
                 .then(function(res) {
                     assert.strictEqual(res.body.message, 'Could not find any rides')

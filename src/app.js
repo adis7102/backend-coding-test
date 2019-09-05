@@ -129,7 +129,8 @@ module.exports = (db) => {
 
 	app.get('/rides/:id', async (req, res) => {
         try {
-            let rows = await db.getAsync(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`)
+            let rideID = Number(req.params.id)
+            let rows = await db.getAsync(`SELECT * FROM Rides WHERE rideID= '${rideID}'`)
             if(rows.length == 0){
                 res.send({
                     error_code: 'RIDES_NOT_FOUND_ERROR',
