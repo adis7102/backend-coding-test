@@ -38,7 +38,7 @@ describe('API tests', () => {
                 .expect(200)
                 .then(function(res) {
                     assert.strictEqual(res.body.error_code, 'RIDES_NOT_FOUND_ERROR')
-                    assert.strictEqual(res.body.message, 'Could not find any rides')
+                    assert.strictEqual(res.body.message, 'Could not find any rides')                    
                 })
         })
     })
@@ -59,7 +59,6 @@ describe('API tests', () => {
                 .post('/rides')
                 .send(newRides)
                 .expect('Content-Type', /json/)
-                .expect(200)
                 .then(res => {                    
                     assert.strictEqual(res.body.length, 1)
                 })
@@ -73,7 +72,6 @@ describe('API tests', () => {
                 .post('/rides')
                 .send(newRides)
                 .expect('Content-Type', /json/)
-                .expect(200)
                 .then(function(res) {
                     assert.strictEqual(res.body.message, 'Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively')
                 })
@@ -87,7 +85,6 @@ describe('API tests', () => {
                 .post('/rides')
                 .send(newRides)
                 .expect('Content-Type', /json/)
-                .expect(200)
                 .then(function(res) {
                     assert.strictEqual(res.body.message, 'Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively')
                 })
@@ -101,7 +98,6 @@ describe('API tests', () => {
                 .post('/rides')
                 .send(newRides)
                 .expect('Content-Type', /json/)
-                .expect(200)
                 .then(function(res) {
                     assert.strictEqual(res.body.message, 'End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively')
                 })
@@ -114,7 +110,6 @@ describe('API tests', () => {
                 .post('/rides')
                 .send(newRides)
                 .expect('Content-Type', /json/)
-                .expect(200)
                 .then(function(res) {
                     assert.strictEqual(res.body.message, 'End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively')
                 })
@@ -127,7 +122,6 @@ describe('API tests', () => {
                 .post('/rides')
                 .send(newRides)
                 .expect('Content-Type', /json/)
-                .expect(200)
                 .then(function(res) {
                     assert.strictEqual(res.body.message, 'Rider name must be a non empty string')
                 })
@@ -140,7 +134,6 @@ describe('API tests', () => {
                 .post('/rides')
                 .send(newRides)
                 .expect('Content-Type', /json/)
-                .expect(200)
                 .then(function(res) {
                     assert.strictEqual(res.body.message, 'Driver name must be a non empty string')
                 })
@@ -153,7 +146,6 @@ describe('API tests', () => {
                 .post('/rides')
                 .send(newRides)
                 .expect('Content-Type', /json/)
-                .expect(200)
                 .then(function(res) {
                     assert.strictEqual(res.body.message, 'Driver Vehicle must be a non empty string')
                 })
@@ -178,8 +170,7 @@ describe('API tests', () => {
         it('should retun Error', () => {
             return request(app)
                 .get(`/rides/${12321321}`)
-                .expect('Content-Type', /json/)
-                .expect(200)
+                .expect('Content-Type', /json/)                
                 .then(function(res) {
                     assert.strictEqual(res.body.message, 'Could not find any rides')
                 })
