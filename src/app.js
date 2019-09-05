@@ -13,7 +13,7 @@ module.exports = (db) => {
     }));   
 	app.get('/health', (req, res) => res.send('Healthy'));
 
-	app.post('/rides', jsonParser, /* async  */(req, res) => {               
+	app.post('/rides', jsonParser, (req, res) => {               
 		const startLatitude = Number(req.body.start_lat);
 		const startLongitude = Number(req.body.start_long);
 		const endLatitude = Number(req.body.end_lat);
@@ -59,12 +59,6 @@ module.exports = (db) => {
 		}
 
 		var values = [req.body.start_lat, req.body.start_long, req.body.end_lat, req.body.end_long, req.body.rider_name, req.body.driver_name, req.body.driver_vehicle];
-        // try {
-
-        // }
-        // catch(err) {
-
-        // }
 		const result = db.run('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values, function (err) {
 			if (err) {
 				return res.send({
