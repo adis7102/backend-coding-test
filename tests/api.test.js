@@ -186,4 +186,16 @@ describe('API tests', () => {
         })
     })
 
+    describe('GET /rides/ Success', () => {
+        it('should retun data', () => {
+            return request(app)
+                .get('/rides')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .then(function(res) {                    
+                    assert.notEqual(res.body.length, 0)
+                })
+        })
+    })
+
 });
