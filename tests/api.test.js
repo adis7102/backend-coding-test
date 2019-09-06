@@ -60,7 +60,7 @@ describe('API tests', () => {
                 .send(newRides)
                 .expect('Content-Type', /json/)
                 .then(res => {                    
-                    assert.strictEqual(res.body.length, 0)
+                    assert.strictEqual(res.body.length, 1)
                 })
         })
     })
